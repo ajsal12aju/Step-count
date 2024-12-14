@@ -11,17 +11,28 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import { useAuth } from "../../hooks/auth/auth";
 import { useState } from "react";
+import { ProgressBar } from 'react-native-paper'; 
+import { useRouter } from "expo-router";
+
 
 // const BgImage = require("../../assets/images/backgroundImages/bg3.jpg");
 
 const HomeDashboard = () => {
+  const router = useRouter();
   const { logOut } = useAuth();
 
   const [modalVisible, setModalVisible] = useState(false);
+  const [currentDay, setCurrentDay] = useState(new Date().getDay());
 
   const toggleModal = () => {
     setModalVisible(!modalVisible);
   };
+
+  const openWater = () => {
+    router.replace("screens/water");
+  };
+
+  
 
   const handleEditGoal = () => {
     alert("Set your step goal");
@@ -31,7 +42,22 @@ const HomeDashboard = () => {
     const response = await logOut();
     console.log("reached", response);
   };
-  return (
+
+  const progress = {
+    steps: 0.85,
+    calories: 0.7,
+    water: 0.75,
+  };
+
+  const quotes = [
+    "Keep Going, You're Doing Great!",
+    "One Step at a Time!",
+    "Push Yourself, No One Else Is Going to Do It for You!",
+    "The Harder You Work, The Better You Get!",
+    "Stay Strong, Stay Focused!",
+  ];
+
+ return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ImageBackground
@@ -53,17 +79,17 @@ const HomeDashboard = () => {
               </View>
 
               <View style={styles.progressCircleContainer}>
-              <Progress.Circle
-  size={120}
-  progress={0.45}
-  showsText={true}
-  formatText={() => `4,500`} 
-  color="#76c7c0"
-  unfilledColor="#d3d3d3"
-  borderWidth={0} 
-  thickness={12} 
-  textStyle={styles.progressText} 
-/>
+                <Progress.Circle
+                  size={120}
+                  progress={0.45}
+                  showsText={true}
+                  formatText={() => `4,500`}
+                  color="#76c7c0"
+                  unfilledColor="#d3d3d3"
+                  borderWidth={0}
+                  thickness={14}
+                  textStyle={styles.progressText}
+                />
                 <View style={styles.playSection}>
                   <View style={styles.progressCircleContainer1}>
                     <Text style={styles.cardTitle}>
@@ -82,57 +108,55 @@ const HomeDashboard = () => {
               </View>
             </View>
 
-            {/* Days of the Week */}
             <View style={styles.daysContainer}>
-              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-                <View key={index} style={styles.dayCircle}>
-                  <Text style={styles.dayText}>{day}</Text>
-                </View>
-              ))}
-            </View>
-            <View style={styles.cardsRow}>
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Steps Taken</Text>
-                <Text style={styles.cardValue}>8,450</Text>
-                <Text style={styles.cardSubtitle}>of 10,000 steps goal</Text>
-                <Progress.Bar
-                  progress={0.85}
-                  width={null}
-                  height={10}
-                  color="#76c7c0"
-                  unfilledColor="#d3d3d3"
-                  borderWidth={0}
-                />
-              </View>
+        {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+          <View
+            key={index}
+            style={[
+              styles.dayCircle,
+              currentDay === index && styles.highlightedDay,
+            ]}
+          >
+            <Text
+              style={[
+                styles.dayText,
+                currentDay === index && styles.highlightedText, 
+              ]}
+            >
+              {day}
+            </Text>
+          </View>
+        ))}
+      </View>
+      <View style={styles.cardsRow}>
+        <View style={styles.card}>
+        <FontAwesome name="bell" size={40} color="#76c7c0" />
 
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Calories Burned</Text>
-                <Text style={styles.cardValue}>350</Text>
-                <Text style={styles.cardSubtitle}>of 500 kcal goal</Text>
-                <Progress.Bar
-                  progress={0.7}
-                  width={null}
-                  height={10}
-                  color="#ff6347"
-                  unfilledColor="#d3d3d3"
-                  borderWidth={0}
-                />
-              </View>
+          <Text style={styles.cardTitle}>Reminder</Text>
+          <Text style={styles.cardValue}>8,450</Text>
+          <ProgressBar progress={progress.steps} color="#76c7c0" style={styles.progressBar} />
+        </View>
 
-              <View style={styles.card}>
-                <Text style={styles.cardTitle}>Water Intake</Text>
-                <Text style={styles.cardValue}>1.5 L</Text>
-                <Text style={styles.cardSubtitle}>of 2L watar goal</Text>
-                <Progress.Bar
-                  progress={0.75}
-                  unfilledColor="#d3d3d3"
-                  width={null}
-                  height={10}
-                  color="#3b9e9f"
-                  borderWidth={0}
-                />
-              </View>
-            </View>
+        <View style={styles.card}>
+        <FontAwesome name="fire" size={40} color="#ff6347" />
+
+          <Text style={styles.cardTitle}>Calories</Text>
+          <Text style={styles.cardValue}>350</Text>
+          <ProgressBar progress={progress.calories} color="#ff6347" style={styles.progressBar} />
+        </View>
+
+        <View style={styles.card}>
+        <FontAwesome name="tint" size={40} color="#76c7c0" />
+
+          <Text style={styles.cardTitle}>Water</Text>
+          <Text style={styles.cardValue}>1.5 L</Text>
+          <ProgressBar progress={progress.water} color="#3b9e9f" style={styles.progressBar} />
+        </View>
+      </View>
+
+      <View style={styles.achievementContainer}>
+        <Text style={styles.achievementText}>🏅 Milestone: 10,000 Steps Achieved! 🏅</Text>
+      </View>
           </View>
         </ImageBackground>
       </ScrollView>
@@ -146,7 +170,7 @@ const HomeDashboard = () => {
           <FontAwesome name="bell" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Reminder</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
+        <TouchableOpacity style={styles.menuButton} onPress={openWater}>
           <FontAwesome name="tint" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Water</Text>
         </TouchableOpacity>
@@ -164,26 +188,25 @@ const HomeDashboard = () => {
           visible={modalVisible}
           onRequestClose={toggleModal}
         >
-         <View style={styles.modalOverlay}>
-  <View style={styles.modalContent}>
-    {/* Logout Button */}
-    <TouchableOpacity
-      style={styles.settingsButton}
-      onPress={handleLogout}
-    >
-      <Text style={styles.settingsButtonText}>Logout</Text>
-    </TouchableOpacity>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              {/* Logout Button */}
+              <TouchableOpacity
+                style={styles.settingsButton}
+                onPress={handleLogout}
+              >
+                <Text style={styles.settingsButtonText}>Logout</Text>
+              </TouchableOpacity>
 
-    {/* Close Button */}
-    <TouchableOpacity
-      style={styles.closeButton}
-      onPress={toggleModal}
-    >
-      <Text style={styles.closeButtonText}>Close</Text>
-    </TouchableOpacity>
-  </View>
-</View>
-
+              {/* Close Button */}
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={toggleModal}
+              >
+                <Text style={styles.closeButtonText}>Close</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         </Modal>
       </View>
     </View>
@@ -245,43 +268,50 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
 
+  motivationalText: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 20,
+    color: '#4CAF50',
+  },
+  cardsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
   card: {
-    backgroundColor: "#ffffff",
+    width: '30%',
+    backgroundColor: '#f5f5f5',
+    padding: 15,
     borderRadius: 10,
-    padding: 10,
-    width: "31%",
-    shadowColor: "#000000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.1,
-    shadowRadius: 10,
-    elevation: 5,
+    alignItems: 'center',
+    marginBottom: 20,
   },
   cardTitle: {
-    fontSize: 18,
-    color: "#333333",
-    marginBottom: 5,
+    fontSize: 15,
+    marginTop:10,
+    fontWeight: 'bold',
   },
   cardValue: {
-    fontSize: 30,
-    fontWeight: "bold",
-    color: "#333333",
-    marginBottom: 10,
-  },
-  cardSubtitle: {
-    fontSize: 14,
-    color: "#666666",
-    marginBottom: 10,
-  },
-  motivation: {
-    alignItems: "center",
-    marginTop: 10,
-  },
-  motivationText: {
-    color: "white",
     fontSize: 18,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 5,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  progressBar: {
+    width: '100%',
+    height: 10,
+  },
+  achievementContainer: {
+    marginTop: 30,
+    backgroundColor: '#e0f7fa',
+    padding: 15,
+    borderRadius: 10,
+    alignItems: 'center',
+  },
+  achievementText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#00796b',
   },
   progressCard: {
     backgroundColor: "#ffffff",
@@ -343,7 +373,7 @@ const styles = StyleSheet.create({
   },
   dayCircle: {
     backgroundColor: "#76c7c0",
-    borderRadius: 20,
+    borderRadius: 50,
     width: 40,
     height: 40,
     justifyContent: "center",
@@ -354,6 +384,13 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: "bold",
   },
+  highlightedText: {
+    color: "#666",
+  },
+  highlightedDay: {
+    backgroundColor: "white",
+  },
+
   settingsButton: {
     backgroundColor: "#76c7c0",
     paddingVertical: 15,
