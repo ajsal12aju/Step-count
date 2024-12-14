@@ -5,21 +5,28 @@ import {
   TouchableOpacity,
   StyleSheet,
   ScrollView,
+  Modal,
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import { useAuth } from "../../hooks/auth/auth";
+import { useState } from "react";
 
 // const BgImage = require("../../assets/images/backgroundImages/bg3.jpg");
 
 const HomeDashboard = () => {
   const { logOut } = useAuth();
 
+  const [modalVisible, setModalVisible] = useState(false);
+
+  const toggleModal = () => {
+    setModalVisible(!modalVisible);
+  };
 
   const handleEditGoal = () => {
-        alert("Set your step goal");
-      };
-    
+    alert("Set your step goal");
+  };
+
   const handleLogout = async () => {
     const response = await logOut();
     console.log("reached", response);
@@ -36,7 +43,6 @@ const HomeDashboard = () => {
             <Text style={styles.title}>Welcome Back, User!</Text>
             <View style={styles.motivation}>
               <Text style={styles.motivationText}>You're Doing Great!</Text>
-
             </View>
             <View style={styles.progressCard}>
               <View style={styles.progressCardHeader}>
@@ -47,33 +53,38 @@ const HomeDashboard = () => {
               </View>
 
               <View style={styles.progressCircleContainer}>
-    <Progress.Circle
-      size={120}
-      progress={0.45}
-      showsText={true}
-      formatText={() => `4,500`}
-      color="#76c7c0"
-      borderWidth={0}
-      thickness={12}
-      textStyle={styles.progressText}
-    />
-    <View style={styles.playSection}>
-      <View style={styles.progressCircleContainer1}>
-    <Text style={styles.cardTitle}>Your journey starts now</Text>
-    <TouchableOpacity
-        style={styles.playButton}
-        onPress={() => alert("Start walking")}
-      >
-            <Text style={styles.settingsButtonTextHead}>Lets start</Text>
-            </TouchableOpacity>
-            </View>
-    </View>
-  </View>
+              <Progress.Circle
+  size={120}
+  progress={0.45}
+  showsText={true}
+  formatText={() => `4,500`} 
+  color="#76c7c0"
+  unfilledColor="#d3d3d3"
+  borderWidth={0} 
+  thickness={12} 
+  textStyle={styles.progressText} 
+/>
+                <View style={styles.playSection}>
+                  <View style={styles.progressCircleContainer1}>
+                    <Text style={styles.cardTitle}>
+                      Your journey starts now
+                    </Text>
+                    <TouchableOpacity
+                      style={styles.playButton}
+                      onPress={() => alert("Start walking")}
+                    >
+                      <Text style={styles.settingsButtonTextHead}>
+                        Lets start
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
             </View>
 
             {/* Days of the Week */}
             <View style={styles.daysContainer}>
-              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
                 <View key={index} style={styles.dayCircle}>
                   <Text style={styles.dayText}>{day}</Text>
                 </View>
@@ -89,6 +100,7 @@ const HomeDashboard = () => {
                   width={null}
                   height={10}
                   color="#76c7c0"
+                  unfilledColor="#d3d3d3"
                   borderWidth={0}
                 />
               </View>
@@ -102,6 +114,7 @@ const HomeDashboard = () => {
                   width={null}
                   height={10}
                   color="#ff6347"
+                  unfilledColor="#d3d3d3"
                   borderWidth={0}
                 />
               </View>
@@ -112,6 +125,7 @@ const HomeDashboard = () => {
                 <Text style={styles.cardSubtitle}>of 2L watar goal</Text>
                 <Progress.Bar
                   progress={0.75}
+                  unfilledColor="#d3d3d3"
                   width={null}
                   height={10}
                   color="#3b9e9f"
@@ -119,27 +133,7 @@ const HomeDashboard = () => {
                 />
               </View>
             </View>
-
-         
-
-            <TouchableOpacity
-              style={styles.settingsButton}
-              onPress={() => alert("Navigate to Settings")}
-            >
-              <FontAwesome name="cogs" size={20} color="white" />
-              <Text style={styles.settingsButtonText}>
-                Manage Goals & Settings
-              </Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-            style={styles.settingsButton}
-            onPress={handleLogout}
-          >
-            <Text style={styles.settingsButtonText}>Logout</Text>
-          </TouchableOpacity>
           </View>
-
-        
         </ImageBackground>
       </ScrollView>
 
@@ -154,12 +148,43 @@ const HomeDashboard = () => {
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuButton}>
           <FontAwesome name="tint" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Water Intake</Text>
+          <Text style={styles.menuButtonText}>Water</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.menuButton}>
           <FontAwesome name="bullseye" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Goal Setting</Text>
+          <Text style={styles.menuButtonText}>Goal</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.menuButton} onPress={toggleModal}>
+          <FontAwesome name="user" size={20} color="#76c7c0" />
+          <Text style={styles.menuButtonText}>Account</Text>
+        </TouchableOpacity>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={toggleModal}
+        >
+         <View style={styles.modalOverlay}>
+  <View style={styles.modalContent}>
+    {/* Logout Button */}
+    <TouchableOpacity
+      style={styles.settingsButton}
+      onPress={handleLogout}
+    >
+      <Text style={styles.settingsButtonText}>Logout</Text>
+    </TouchableOpacity>
+
+    {/* Close Button */}
+    <TouchableOpacity
+      style={styles.closeButton}
+      onPress={toggleModal}
+    >
+      <Text style={styles.closeButtonText}>Close</Text>
+    </TouchableOpacity>
+  </View>
+</View>
+
+        </Modal>
       </View>
     </View>
   );
@@ -181,7 +206,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     // backgroundColor: "rgba(0, 0, 0, 0.0)",
-        backgroundColor: "black",
+    backgroundColor: "black",
 
     justifyContent: "center",
     padding: 20,
@@ -374,6 +399,54 @@ const styles = StyleSheet.create({
   menuButtonText: {
     color: "white",
     fontSize: 12,
+  },
+
+  // menuButton: {
+  //   flexDirection: 'row',
+  //   alignItems: 'center',
+  //   padding: 10,
+  //   backgroundColor: '#f2f2f2',
+  //   borderRadius: 5,
+  // },
+  // menuButtonText: {
+  //   marginLeft: 8,
+  //   color: '#76c7c0',
+  //   fontSize: 16,
+  //   fontWeight: 'bold',
+  // },
+  modalOverlay: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
+  },
+  modalContent: {
+    width: "80%",
+    padding: 20,
+    backgroundColor: "white",
+    borderRadius: 10,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  settingsButtonText: {
+    fontSize: 18,
+    color: "#333",
+    marginBottom: 15,
+  },
+  closeButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: "#76c7c0",
+    borderRadius: 5,
+  },
+  closeButtonText: {
+    color: "white",
+    fontWeight: "bold",
+    fontSize: 16,
   },
 });
 
