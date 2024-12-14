@@ -21,13 +21,23 @@ const SignIn = () => {
   const router = useRouter();
   const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignUpPress = () => {
     router.replace("screens/signUp");
   };
 
   const handleSignInPress = async () => {
-    const response = await login(form?.email, form?.password);
+    try {
+      const response = await login(form?.email, form?.password);
+      if (response?.success) {
+        setErrorMessage("");
+      } else {
+        setErrorMessage("invalid credentials. Please try again.");
+      }
+    } catch (error) {
+      setErrorMessage("An unexpected error occurred. Please try again.");
+    }
   };
 
   const handleInputChange = (field, value) => {
@@ -43,7 +53,7 @@ const SignIn = () => {
       style={{ flex: 1, resizeMode: "cover" }}
       imageStyle={{ opacity: 1.5 }}
     >
-      <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
+      <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 10)" }}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           className="flex-1"
@@ -68,6 +78,10 @@ const SignIn = () => {
             <Text className="text-sm text-gray-300 text-center mb-8">
               Please sign in to continue
             </Text>
+
+            {/* Display Error Message */}
+         
+
             <View className="mx-6">
               <View className="flex-row items-center w-full h-12 px-4 border border-gray-300 rounded-full bg-white mb-4 shadow-sm">
                 <Ionicons name="mail-outline" size={20} color="#76c7c0" />
@@ -95,6 +109,11 @@ const SignIn = () => {
                   onChangeText={(value) => handleInputChange("password", value)}
                 />
               </View>
+              {errorMessage ? (
+              <Text className="text-red-500 text-center mb-4">
+                {errorMessage}
+              </Text>
+            ) : null}
               <TouchableOpacity className="mb-6">
                 <Text className="text-gray-300 text-sm text-right">
                   Forgot Password?

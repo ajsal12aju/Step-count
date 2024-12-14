@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -11,25 +10,16 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import { useAuth } from "../../hooks/auth/auth";
 
-const BgImage = require("../../assets/images/backgroundImages/bg1.jpg");
-const BgImage1 = require("../../assets/images/backgroundImages/bg2.jpg");
-const BgImage2 = require("../../assets/images/backgroundImages/bg3.jpg");
+// const BgImage = require("../../assets/images/backgroundImages/bg3.jpg");
 
 const HomeDashboard = () => {
-  const [bgImage, setBgImage] = useState(BgImage1);
   const { logOut } = useAuth();
-  useEffect(() => {
-    const images = [BgImage, BgImage2, BgImage1];
-    let currentIndex = 0;
 
-    const interval = setInterval(() => {
-      currentIndex = (currentIndex + 1) % images.length;
-      setBgImage(images[currentIndex]);
-    }, 5000);
 
-    return () => clearInterval(interval);
-  }, []);
-
+  const handleEditGoal = () => {
+        alert("Set your step goal");
+      };
+    
   const handleLogout = async () => {
     const response = await logOut();
     console.log("reached", response);
@@ -38,13 +28,57 @@ const HomeDashboard = () => {
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ImageBackground
-          source={bgImage}
+          // source={BgImage}
           style={styles.background}
           imageStyle={styles.backgroundImage}
         >
           <View style={styles.container}>
             <Text style={styles.title}>Welcome Back, User!</Text>
-            <Text style={styles.settingsButtonTextHead}>Today's Updates</Text>
+            <View style={styles.motivation}>
+              <Text style={styles.motivationText}>You're Doing Great!</Text>
+
+            </View>
+            <View style={styles.progressCard}>
+              <View style={styles.progressCardHeader}>
+                <Text style={styles.goalCount}>10,000 steps</Text>
+                <TouchableOpacity onPress={handleEditGoal}>
+                  <FontAwesome name="edit" size={20} color="#333333" />
+                </TouchableOpacity>
+              </View>
+
+              <View style={styles.progressCircleContainer}>
+    <Progress.Circle
+      size={120}
+      progress={0.45}
+      showsText={true}
+      formatText={() => `4,500`}
+      color="#76c7c0"
+      borderWidth={0}
+      thickness={12}
+      textStyle={styles.progressText}
+    />
+    <View style={styles.playSection}>
+      <View style={styles.progressCircleContainer1}>
+    <Text style={styles.cardTitle}>Your journey starts now</Text>
+    <TouchableOpacity
+        style={styles.playButton}
+        onPress={() => alert("Start walking")}
+      >
+            <Text style={styles.settingsButtonTextHead}>Lets start</Text>
+            </TouchableOpacity>
+            </View>
+    </View>
+  </View>
+            </View>
+
+            {/* Days of the Week */}
+            <View style={styles.daysContainer}>
+              {['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((day, index) => (
+                <View key={index} style={styles.dayCircle}>
+                  <Text style={styles.dayText}>{day}</Text>
+                </View>
+              ))}
+            </View>
             <View style={styles.cardsRow}>
               <View style={styles.card}>
                 <Text style={styles.cardTitle}>Steps Taken</Text>
@@ -86,12 +120,7 @@ const HomeDashboard = () => {
               </View>
             </View>
 
-            <View style={styles.motivation}>
-              <Text style={styles.motivationText}>You're Doing Great!</Text>
-              <Text style={styles.motivationText}>
-                Keep going to reach your goals!
-              </Text>
-            </View>
+         
 
             <TouchableOpacity
               style={styles.settingsButton}
@@ -102,14 +131,15 @@ const HomeDashboard = () => {
                 Manage Goals & Settings
               </Text>
             </TouchableOpacity>
-          </View>
-
-          <TouchableOpacity
+            <TouchableOpacity
             style={styles.settingsButton}
             onPress={handleLogout}
           >
             <Text style={styles.settingsButtonText}>Logout</Text>
           </TouchableOpacity>
+          </View>
+
+        
         </ImageBackground>
       </ScrollView>
 
@@ -150,7 +180,9 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
+    // backgroundColor: "rgba(0, 0, 0, 0.0)",
+        backgroundColor: "black",
+
     justifyContent: "center",
     padding: 20,
     height: "80vh",
@@ -181,7 +213,6 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     textAlign: "center",
-    marginBottom: 30,
   },
   cardsRow: {
     flexDirection: "row",
@@ -218,7 +249,7 @@ const styles = StyleSheet.create({
   },
   motivation: {
     alignItems: "center",
-    marginTop: 30,
+    marginTop: 10,
   },
   motivationText: {
     color: "white",
@@ -226,6 +257,77 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     marginBottom: 5,
+  },
+  progressCard: {
+    backgroundColor: "#ffffff",
+    borderRadius: 15,
+    padding: 20,
+    alignItems: "center",
+    shadowColor: "#000000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
+    marginBottom: 20,
+  },
+  progressCardHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "100%",
+    marginBottom: 20,
+  },
+  goalCount: {
+    fontSize: 18,
+    color: "#333333",
+  },
+  progressCircleContainer: {
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  progressCircleContainer1: {
+    alignItems: "center",
+    width: "100%",
+    justifyContent: "center",
+    flexDirection: "column",
+  },
+  progressText: {
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  playSection: {
+    alignItems: "center",
+    marginLeft: 20,
+  },
+  playText: {
+    fontSize: 14,
+    color: "#666",
+    marginBottom: 10,
+  },
+  playButton: {
+    backgroundColor: "#76c7c0",
+    borderRadius: 50,
+    padding: 10,
+  },
+
+  daysContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    marginBottom: 30,
+  },
+  dayCircle: {
+    backgroundColor: "#76c7c0",
+    borderRadius: 20,
+    width: 40,
+    height: 40,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  dayText: {
+    color: "white",
+    fontSize: 14,
+    fontWeight: "bold",
   },
   settingsButton: {
     backgroundColor: "#76c7c0",
@@ -242,10 +344,15 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
   },
+  settingsButton: {
+    color: "white",
+    marginLeft: 10,
+    fontSize: 16,
+  },
   settingsButtonTextHead: {
     color: "white",
     fontSize: 20,
-    marginBottom: 10,
+    // marginBottom: 10,
     textAlign: "center",
   },
 
