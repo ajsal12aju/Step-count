@@ -15,20 +15,19 @@ import { useRouter } from "expo-router";
 
 const BgImage = require("../../assets/images/backgroundImages/bg2.jpg");
 import Colors from "../utils/colors";
+import { useAuth } from "../../hooks/auth/auth";
 
 const SignIn = () => {
   const router = useRouter();
+  const { login } = useAuth();
   const [form, setForm] = useState({ email: "", password: "" });
 
   const handleSignUpPress = () => {
     router.replace("screens/signUp");
   };
 
-  const handleSignInPress = () => {
-    router.replace("screens/home");
-
-    console.log("Email:", form.email);
-    console.log("Password:", form.password);
+  const handleSignInPress = async () => {
+    const response = await login(form?.email, form?.password);
   };
 
   const handleInputChange = (field, value) => {

@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
+import { useAuth } from "../../hooks/auth/auth";
 
 const BgImage = require("../../assets/images/backgroundImages/bg1.jpg");
 const BgImage1 = require("../../assets/images/backgroundImages/bg2.jpg");
@@ -16,6 +17,7 @@ const BgImage2 = require("../../assets/images/backgroundImages/bg3.jpg");
 
 const HomeDashboard = () => {
   const [bgImage, setBgImage] = useState(BgImage1);
+  const { logOut } = useAuth();
   useEffect(() => {
     const images = [BgImage, BgImage2, BgImage1];
     let currentIndex = 0;
@@ -27,6 +29,11 @@ const HomeDashboard = () => {
 
     return () => clearInterval(interval);
   }, []);
+
+  const handleLogout = async () => {
+    const response = await logOut();
+    console.log("reached", response);
+  };
   return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
@@ -96,6 +103,13 @@ const HomeDashboard = () => {
               </Text>
             </TouchableOpacity>
           </View>
+
+          <TouchableOpacity
+            style={styles.settingsButton}
+            onPress={handleLogout}
+          >
+            <Text style={styles.settingsButtonText}>Logout</Text>
+          </TouchableOpacity>
         </ImageBackground>
       </ScrollView>
 
@@ -139,7 +153,7 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     padding: 20,
-    height: "80vh"
+    height: "80vh",
   },
 
   stickyMenu: {

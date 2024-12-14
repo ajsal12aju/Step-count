@@ -8,6 +8,7 @@ import {
   Platform,
   ScrollView,
   ImageBackground,
+  Alert,
 } from "react-native";
 import React, { useState } from "react";
 
@@ -16,20 +17,24 @@ import { useRouter } from "expo-router";
 
 const BgImage = require("../../assets/images/backgroundImages/bg5.jpg");
 import Colors from "../utils/colors";
+import { useAuth } from "../../hooks/auth/auth";
 
 const SignUp = () => {
   const router = useRouter();
+  const { signUp } = useAuth();
   const [form, setForm] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-  const handleSignUpPress = () => {
-    console.log("Name:", form.name);
-    console.log("Email:", form.email);
-    console.log("Password:", form.password);
-    // Add your sign-up logic here (e.g., API call)
+  const handleSignUpPress = async () => {
+    const response = await signUp(form.email, form.password, form.name);
+    setLoading(false);
+
+    if (!response.success) {
+      Alert.alert("signUp", response?.message);
+    }
   };
 
   const handleInputChange = (field, value) => {
