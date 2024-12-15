@@ -1,11 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { useRouter } from "expo-router";
 
 const DailyGoalPage = () => {
+    const router = useRouter();
+
+    const backToHome = () => {
+        router.replace("screens/home");
+      };
+    
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <TouchableOpacity style={styles.backButton}>
+                <TouchableOpacity style={styles.backButton} onPress={backToHome}>
                     <Text style={styles.backButtonText}>{'<'}</Text>
                 </TouchableOpacity>
                 <Text style={styles.headerTitle}>Daily Goal</Text>
@@ -31,7 +38,7 @@ const DailyGoalPage = () => {
                     <Text style={styles.adjustButtonText}>+</Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity style={styles.changeGoalButton}>
+            <TouchableOpacity style={styles.changeGoalButton} onPress={backToHome}>
                 <Text style={styles.changeGoalButtonText}>Change Daily Goal</Text>
             </TouchableOpacity>
         </View>
@@ -58,7 +65,7 @@ const styles = StyleSheet.create({
     },
     backButtonText: {
         color: '#76c7c0',
-        fontSize: 26,
+        fontSize: 30,
     },
     headerTitle: {
         color: '#fff',
@@ -95,8 +102,8 @@ const styles = StyleSheet.create({
     },
     adjustButton: {
         backgroundColor: '#76c7c0',
-        width: 50,
-        height: 50,
+        width: 45,
+        height: 45,
         borderRadius: 25,
         justifyContent: 'center',
         alignItems: 'center',
@@ -104,7 +111,7 @@ const styles = StyleSheet.create({
     },
     adjustButtonText: {
         color: '#000',
-        fontSize: 24,
+        fontSize: 28,
         fontWeight: 'bold',
     },
     waterAmount: {
@@ -115,7 +122,7 @@ const styles = StyleSheet.create({
     changeGoalButton: {
         backgroundColor: '#76c7c0',
         width: '100%',
-        padding: 15,
+        padding: 10,
         borderRadius: 50,
         alignItems: 'center',
         marginBottom: 20,

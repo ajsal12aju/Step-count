@@ -29,8 +29,12 @@ const HomeDashboard = () => {
   };
 
   const openWater = () => {
+    router.replace("screens/water");
+  };
+  const openGoal = () => {
     router.replace("screens/goal");
   };
+
 
   
 
@@ -174,7 +178,7 @@ const HomeDashboard = () => {
           <FontAwesome name="tint" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Water</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
+        <TouchableOpacity style={styles.menuButton} onPress={openGoal}>
           <FontAwesome name="bullseye" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Goal</Text>
         </TouchableOpacity>
