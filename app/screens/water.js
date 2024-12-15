@@ -1,83 +1,121 @@
-import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, StyleSheet } from 'react-native';
-import FontAwesome from 'react-native-vector-icons/FontAwesome';
-import { ProgressBar } from 'react-native-paper';
+import React from "react";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  StyleSheet,
+  Image,
+  FlatList,
+} from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import * as Progress from "react-native-progress";
+import { useRouter } from "expo-router";
 
-const WaterGoalComponent = () => {
-  const [inputGoal, setInputGoal] = useState(goal);
+const WaterUpdatePage = () => {
+  const router = useRouter();
 
-  const [goal, setGoal] = useState(3); 
-  const [addedWater, setAddedWater] = useState(0); 
-  const [inputWater, setInputWater] = useState(''); 
-  const [isEditing, setIsEditing] = useState(false);
-  const [newGoal, setNewGoal] = useState(goal);
-
-  const remainingWater = goal - addedWater;
-  const progress = addedWater / goal;
-
-  const handleAddWater = () => {
-    const waterToAdd = parseFloat(inputWater);
-    if (waterToAdd && waterToAdd > 0) {
-      setAddedWater(addedWater + waterToAdd);
-      setInputWater('');
-    }
+  const weeklyData = [70, 80, 50, 90, 100, 60, 75];
+  const averagePercentage =
+    weeklyData.reduce((a, b) => a + b, 0) / weeklyData.length;
+  const backToHome = () => {
+    router.replace("screens/home");
   };
-
-  const handleGoalSubmit = () => {
-    setGoal(newGoal); 
-    setIsEditing(false); 
-  };
-
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <FontAwesome name="tint" size={30} color="#3b9e9f" />
-        <Text style={styles.headerText}>Water Intake</Text>
-      </View>
+      <Text style={styles.userName}>Mohammed Ajsal</Text>
 
-      <View style={styles.goalSection}>
-        {isEditing ? (
-          <View style={styles.editGoal}>
-            <TextInput
-              style={styles.input}
-              keyboardType="numeric"
-              value={inputGoal.toString()}
-              onChangeText={(text) => setInputGoal(parseFloat(text))}
+      <View style={styles.intakeCard}>
+        <View style={styles.intakeDetails}>
+          <View style={styles.leftSection}>
+            <Text style={styles.cardTitle}>Today's Water Intake</Text>
+            <Text style={styles.waterAmount}>200ml / 500ml</Text>
+            <TouchableOpacity style={styles.addWaterButton}>
+              <Text style={styles.addWaterButtonText}>Add Water</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.rightSection}>
+            <Progress.Circle
+              size={120}
+              progress={0.4}
+              showsText={true}
+              formatText={() => `50%`}
+              color="#76c7c0"
+              unfilledColor="#d3d3d3"
+              borderWidth={0}
+              thickness={14}
+              textStyle={styles.progressText}
             />
-            <TouchableOpacity onPress={handleGoalSubmit}>
-              <FontAwesome name="check" size={20} color="#3b9e9f" />
-            </TouchableOpacity>
           </View>
-        ) : (
-          <View style={styles.goalTextContainer}>
-            <Text style={styles.goalText}>
-              Goal: {goal} L - {addedWater} L added
-            </Text>
-            <ProgressBar progress={progress} color="#3b9e9f" style={styles.progressBar} />
-            <Text style={styles.remainingText}>Remaining: {remainingWater} L</Text>
-            <TouchableOpacity onPress={() => setIsEditing(true)}>
-              <FontAwesome name="edit" size={20} color="#3b9e9f" />
-            </TouchableOpacity>
-          </View>
-        )}
-      </View>
-      <View style={styles.inputSection}>
-        <TextInput
-          style={styles.input}
-          placeholder="Add water (ml)"
-          keyboardType="numeric"
-          value={inputWater}
-          onChangeText={(text) => setInputWater(text)}
-        />
-        <TouchableOpacity style={styles.addButton} onPress={handleAddWater}>
-          <FontAwesome name="plus-circle" size={25} color="#fff" />
-        </TouchableOpacity>
+        </View>
       </View>
 
-      <TouchableOpacity style={styles.resetButton} onPress={() => setAddedWater(0)}>
-        <FontAwesome name="redo" size={25} color="#fff" />
-        <Text style={styles.resetText}>Reset</Text>
+      <View style={styles.recordCard}>
+        <Text style={styles.recordCardTitle}>Today's Record</Text>
+        <FlatList
+          data={[
+            { time: "10:00 AM", amount: "200ml" },
+            { time: "1:00 PM", amount: "300ml" },
+          ]}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <View style={styles.recordRow}>
+              {/* <Image
+                source={require("../../assets/images/bottle.png")}
+                style={styles.recordIcon}
+              /> */}
+                        <FontAwesome name="tint" size={25} color="#76c7c0" />
+
+              <Text style={styles.recordTime}>{item.time}</Text>
+              <Text style={styles.recordAmount}>{item.amount}</Text>
+              <Text style={styles.recordOptions}>...</Text>
+            </View>
+          )}
+        />
+      </View>
+
+      <View style={styles.weeklyStatsCard}>
+        <Text style={styles.weeklyStatsTitle}>Weekly Stats</Text>
+        <View style={styles.weeklyCirclesContainer}>
+          {weeklyData.map((percentage, index) => {
+            const dayInitial = ["S", "M", "T", "W", "T", "F", "S"][index];
+            return (
+              <View key={index} style={styles.weeklyCircleWrapper}>
+                <Progress.Circle
+                  size={35}
+                  progress={percentage / 100}
+                  showsText={true}
+                  formatText={() => dayInitial}
+                  color="#76c7c0"
+                  unfilledColor="#d3d3d3"
+                  borderWidth={0}
+                  thickness={6}
+                  textStyle={styles.dayInitialText}
+                />
+                <Text style={styles.weeklyPercentage}>{percentage}%</Text>
+              </View>
+            );
+          })}
+        </View>
+        <View style={styles.totalWeeklyProgressWrapper}>
+          <Text style={styles.totalProgressText}>Total Weekly Progress</Text>
+          <Progress.Bar
+            progress={averagePercentage / 100}
+            color={"#76c7c0"}
+            unfilledColor={"#d3d3d3"}
+            borderWidth={0}
+            width={null}
+            height={12}
+            style={styles.horizontalProgressBar}
+          />
+          <Text style={styles.averagePercentage}>
+            {averagePercentage.toFixed(0)}%
+          </Text>
+        </View>
+      </View>
+
+      <TouchableOpacity style={styles.changeGoalButton} onPress={backToHome}>
+        <Text style={styles.changeGoalButtonText}>Back To Home</Text>
       </TouchableOpacity>
     </View>
   );
@@ -85,101 +123,194 @@ const WaterGoalComponent = () => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: "#000",
     padding: 20,
-    backgroundColor: '#f5f5f5',
-    borderRadius: 10,
-    marginTop: 20,
-    elevation: 5,
   },
-
-  goalSection: {
-    marginBottom: 20,
-  },
-  goalTextContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  progressBar: {
-    height: 10,
-    borderRadius: 5,
-    marginTop: 10,
-    marginBottom: 10,
-  },
-  remainingText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  editGoal: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  input: {
-    flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
-    marginRight: 10,
-  },
-  header: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 10,
-  },
-  headerText: {
+  userName: {
+    color: "#fff",
     fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333',
-    marginLeft: 10,
-  },
-
-  goalText: {
-    fontSize: 18,
-    color: '#333',
-    marginBottom: 10,
-  },
-  progressBar: {
-    height: 10,
-    borderRadius: 5,
-    marginBottom: 10,
-  },
-  remainingText: {
-    fontSize: 16,
-    color: '#333',
-  },
-  inputSection: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    fontWeight: "bold",
     marginBottom: 20,
   },
-  input: {
+  intakeCard: {
+    backgroundColor: "#222",
+    borderRadius: 10,
+    overflow: "hidden",
+    marginBottom: 20,
+  },
+  cardBg: {
+    width: "100%",
+    height: 100,
+    position: "absolute",
+    top: 100,
+    // bottom: 0,
+    // left: 0,
+  },
+  intakeDetails: {
+    flexDirection: "row",
+    padding: 20,
+  },
+  leftSection: {
     flex: 1,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    padding: 10,
+  },
+  cardTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+  waterAmount: {
+    color: "#aaa",
+    fontSize: 16,
+    marginVertical: 10,
+  },
+  addWaterButton: {
+    backgroundColor: "#76c7c0",
+    padding: 8,
+    width: 100,
+    top: 10,
+    borderRadius: 50,
+    alignItems: "center",
+  },
+  addWaterButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  rightSection: {
+    alignItems: "center",
+  },
+  progressText: {
+    color: "#aaa",
+    fontSize: 17,
+    textAlign: "center",
+  },
+  percentage: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
+  recordCard: {
+    backgroundColor: "#222",
+    borderRadius: 10,
+    padding: 20,
+    marginBottom: 20,
+  },
+  recordCardTitle: {
+    color: "#fff",
+    fontSize: 18,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  recordRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: 10,
+  },
+  recordIcon: {
+    width: 24,
+    height: 24,
     marginRight: 10,
   },
-  addButton: {
-    backgroundColor: '#3b9e9f',
-    padding: 10,
-    borderRadius: 50,
+  recordTime: {
+    color: "#fff",
+    fontSize: 16,
+    flex: 1,
+    marginLeft:12
   },
-  resetButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#ff6347',
-    padding: 10,
-    borderRadius: 50,
-    marginTop: 20,
+  recordAmount: {
+    color: "#fff",
+    fontSize: 14,
   },
-  resetText: {
+  recordOptions: {
+    color: "#aaa",
+    fontSize: 20,
+    marginLeft: 20,
+    transform: [{ rotate: '90deg' }],
+  },
+  weeklyCirclesContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  weeklyCircleWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: 30,
+  },
+  dayInitialText: {
+    fontSize: 12,
+    fontWeight: "bold",
+    color: "#fff",
+  },
+  weeklyPercentage: {
+    color: "#fff",
+    fontSize: 12,
+    marginTop: 5,
+    textAlign: "center",
+  },
+
+  weeklyStatsCard: {
+    backgroundColor: "#222",
+    borderRadius: 10,
+    padding: 20,
+  },
+  weeklyStatsTitle: {
+    color: "#fff",
     fontSize: 18,
-    color: '#fff',
-    marginLeft: 10,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  weeklyBarsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginBottom: 20,
+  },
+  weeklyBarWrapper: {
+    alignItems: "center",
+  },
+  weeklyBar: {
+    width: 5,
+    height: 50,
+    backgroundColor: "#444",
+  },
+
+  totalWeeklyProgressWrapper: {
+    alignItems: "center",
+    marginTop: 20,
+    paddingHorizontal: 10,
+  },
+  totalProgressText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginBottom: 10,
+  },
+  horizontalProgressBar: {
+    width: "100%",
+    borderRadius: 6,
+    backgroundColor: "#444",
+  },
+  averagePercentage: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    marginTop: 10,
+  },
+  changeGoalButton: {
+    backgroundColor: "#76c7c0",
+    width: "100%",
+    padding: 10,
+    borderRadius: 50,
+    alignItems: "center",
+    marginBottom: 20,
+    marginTop: 30,
+  },
+  changeGoalButtonText: {
+    color: "#000",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 });
 
-export default WaterGoalComponent;
+export default WaterUpdatePage;
