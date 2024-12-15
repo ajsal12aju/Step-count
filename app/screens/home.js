@@ -34,6 +34,9 @@ const HomeDashboard = () => {
   const openGoal = () => {
     router.replace("screens/goal");
   };
+  const openReminder = () => {
+    router.replace("screens/remider");
+  };
 
 
   
@@ -170,7 +173,7 @@ const HomeDashboard = () => {
           <FontAwesome name="home" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton}>
+        <TouchableOpacity style={styles.menuButton} onPress={openReminder}>
           <FontAwesome name="bell" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Reminder</Text>
         </TouchableOpacity>
