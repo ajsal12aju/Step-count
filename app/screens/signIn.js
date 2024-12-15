@@ -51,9 +51,9 @@ const SignIn = () => {
     <ImageBackground
       source={BgImage}
       style={{ flex: 1, resizeMode: "cover" }}
-      imageStyle={{ opacity: 1.5 }}
+      imageStyle={{ opacity:1}}
     >
-      <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 10)" }}>
+      <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : "height"}
           className="flex-1"
