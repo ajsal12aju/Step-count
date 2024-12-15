@@ -29,7 +29,7 @@ const HomeDashboard = () => {
   };
 
   const openWater = () => {
-    router.replace("screens/water");
+    router.replace("screens/goal");
   };
 
   
