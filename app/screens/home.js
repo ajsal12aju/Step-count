@@ -169,10 +169,7 @@ const HomeDashboard = () => {
       </ScrollView>
 
       <View style={styles.stickyMenu}>
-        <TouchableOpacity style={styles.menuButton}>
-          <FontAwesome name="home" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Home</Text>
-        </TouchableOpacity>
+       
         <TouchableOpacity style={styles.menuButton} onPress={openReminder}>
           <FontAwesome name="bell" size={20} color="#76c7c0" />
           <Text style={styles.menuButtonText}>Reminder</Text>
