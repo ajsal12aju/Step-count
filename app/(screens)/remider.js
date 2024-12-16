@@ -63,7 +63,7 @@ const ReminderPage = () => {
 
   const handlePickerChange = (event, selectedDate) => {
     setPickerVisible(false);
-    
+
     if (event.type === "set" && selectedDate) {
       const formattedTime = selectedDate.toLocaleTimeString([], {
         hour: "2-digit",
@@ -80,7 +80,7 @@ const ReminderPage = () => {
         reminders: [],
       });
       setReminders([]);
-      router.replace("screens/home");
+      router.replace("home");
     } catch (error) {
       console.error("Error resetting reminders:", error);
     }

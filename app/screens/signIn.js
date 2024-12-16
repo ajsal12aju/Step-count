@@ -24,7 +24,7 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignUpPress = () => {
-    router.replace("screens/signUp");
+    router.replace("signUp");
   };
 
   const handleSignInPress = async () => {
@@ -51,7 +51,7 @@ const SignIn = () => {
     <ImageBackground
       source={BgImage}
       style={{ flex: 1, resizeMode: "cover" }}
-      imageStyle={{ opacity:1}}
+      imageStyle={{ opacity: 1 }}
     >
       <View style={{ flex: 1, backgroundColor: "rgba(0, 0, 0, 0.5)" }}>
         <KeyboardAvoidingView
@@ -80,7 +80,6 @@ const SignIn = () => {
             </Text>
 
             {/* Display Error Message */}
-         
 
             <View className="mx-6">
               <View className="flex-row items-center w-full h-12 px-4 border border-gray-300 rounded-full bg-white mb-4 shadow-sm">
@@ -110,10 +109,10 @@ const SignIn = () => {
                 />
               </View>
               {errorMessage ? (
-              <Text className="text-red-500 text-center mb-4">
-                {errorMessage}
-              </Text>
-            ) : null}
+                <Text className="text-red-500 text-center mb-4">
+                  {errorMessage}
+                </Text>
+              ) : null}
               <TouchableOpacity className="mb-6">
                 <Text className="text-gray-300 text-sm text-right">
                   Forgot Password?

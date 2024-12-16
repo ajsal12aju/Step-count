@@ -11,9 +11,8 @@ import { FontAwesome } from "@expo/vector-icons";
 import * as Progress from "react-native-progress";
 import { useAuth } from "../../hooks/auth/auth";
 import { useState } from "react";
-import { ProgressBar } from 'react-native-paper'; 
+import { ProgressBar } from "react-native-paper";
 import { useRouter } from "expo-router";
-
 
 // const BgImage = require("../../assets/images/backgroundImages/bg3.jpg");
 
@@ -29,17 +28,14 @@ const HomeDashboard = () => {
   };
 
   const openWater = () => {
-    router.replace("screens/water");
+    router.replace("water");
   };
   const openGoal = () => {
-    router.replace("screens/goal");
+    router.replace("goal");
   };
   const openReminder = () => {
-    router.replace("screens/remider");
+    router.replace("remider");
   };
-
-
-  
 
   const handleEditGoal = () => {
     alert("Set your step goal");
@@ -64,7 +60,7 @@ const HomeDashboard = () => {
     "Stay Strong, Stay Focused!",
   ];
 
- return (
+  return (
     <View style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <ImageBackground
@@ -104,7 +100,7 @@ const HomeDashboard = () => {
                     </Text>
                     <TouchableOpacity
                       style={styles.playButton}
-                      onPress={() => alert("Start walking")}
+                      onPress={() => router.replace("stepTracker")}
                     >
                       <Text style={styles.settingsButtonTextHead}>
                         Lets start
@@ -116,103 +112,71 @@ const HomeDashboard = () => {
             </View>
 
             <View style={styles.daysContainer}>
-        {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
-          <View
-            key={index}
-            style={[
-              styles.dayCircle,
-              currentDay === index && styles.highlightedDay,
-            ]}
-          >
-            <Text
-              style={[
-                styles.dayText,
-                currentDay === index && styles.highlightedText, 
-              ]}
-            >
-              {day}
-            </Text>
-          </View>
-        ))}
-      </View>
-      <View style={styles.cardsRow}>
-        <View style={styles.card}>
-        <FontAwesome name="bell" size={40} color="#76c7c0" />
+              {["S", "M", "T", "W", "T", "F", "S"].map((day, index) => (
+                <View
+                  key={index}
+                  style={[
+                    styles.dayCircle,
+                    currentDay === index && styles.highlightedDay,
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.dayText,
+                      currentDay === index && styles.highlightedText,
+                    ]}
+                  >
+                    {day}
+                  </Text>
+                </View>
+              ))}
+            </View>
+            <View style={styles.cardsRow}>
+              <View style={styles.card}>
+                <FontAwesome name="bell" size={40} color="#76c7c0" />
 
-          <Text style={styles.cardTitle}>Reminder</Text>
-          <Text style={styles.cardValue}>8,450</Text>
-          <ProgressBar progress={progress.steps} color="#76c7c0" style={styles.progressBar} />
-        </View>
+                <Text style={styles.cardTitle}>Reminder</Text>
+                <Text style={styles.cardValue}>8,450</Text>
+                <ProgressBar
+                  progress={progress.steps}
+                  color="#76c7c0"
+                  style={styles.progressBar}
+                />
+              </View>
 
-        <View style={styles.card}>
-        <FontAwesome name="fire" size={40} color="#ff6347" />
+              <View style={styles.card}>
+                <FontAwesome name="fire" size={40} color="#ff6347" />
 
-          <Text style={styles.cardTitle}>Calories</Text>
-          <Text style={styles.cardValue}>350</Text>
-          <ProgressBar progress={progress.calories} color="#ff6347" style={styles.progressBar} />
-        </View>
+                <Text style={styles.cardTitle}>Calories</Text>
+                <Text style={styles.cardValue}>350</Text>
+                <ProgressBar
+                  progress={progress.calories}
+                  color="#ff6347"
+                  style={styles.progressBar}
+                />
+              </View>
 
-        <View style={styles.card}>
-        <FontAwesome name="tint" size={40} color="#76c7c0" />
+              <View style={styles.card}>
+                <FontAwesome name="tint" size={40} color="#76c7c0" />
 
-          <Text style={styles.cardTitle}>Water</Text>
-          <Text style={styles.cardValue}>1.5 L</Text>
-          <ProgressBar progress={progress.water} color="#3b9e9f" style={styles.progressBar} />
-        </View>
-      </View>
+                <Text style={styles.cardTitle}>Water</Text>
+                <Text style={styles.cardValue}>1.5 L</Text>
+                <ProgressBar
+                  progress={progress.water}
+                  color="#3b9e9f"
+                  style={styles.progressBar}
+                />
+              </View>
+            </View>
 
-      <View style={styles.achievementContainer}>
-        <Text style={styles.achievementText}>🏅 Milestone: 10,000 Steps Achieved! 🏅</Text>
-      </View>
+            <View style={styles.achievementContainer}>
+              <Text style={styles.achievementText}>
+                🏅 Milestone: 10,000 Steps Achieved! 🏅
+              </Text>
+            </View>
           </View>
         </ImageBackground>
       </ScrollView>
-
-      <View style={styles.stickyMenu}>
-       
-        <TouchableOpacity style={styles.menuButton} onPress={openReminder}>
-          <FontAwesome name="bell" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Reminder</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton} onPress={openWater}>
-          <FontAwesome name="tint" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Water</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton} onPress={openGoal}>
-          <FontAwesome name="bullseye" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Goal</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuButton} onPress={toggleModal}>
-          <FontAwesome name="user" size={20} color="#76c7c0" />
-          <Text style={styles.menuButtonText}>Account</Text>
-        </TouchableOpacity>
-        <Modal
-          animationType="slide"
-          transparent={true}
-          visible={modalVisible}
-          onRequestClose={toggleModal}
-        >
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              {/* Logout Button */}
-              <TouchableOpacity
-                style={styles.settingsButton}
-                onPress={handleLogout}
-              >
-                <Text style={styles.settingsButtonText}>Logout</Text>
-              </TouchableOpacity>
-
-              {/* Close Button */}
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={toggleModal}
-              >
-                <Text style={styles.closeButtonText}>Close</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </Modal>
-      </View>
     </View>
   );
 };
@@ -274,48 +238,48 @@ const styles = StyleSheet.create({
 
   motivationalText: {
     fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     marginBottom: 20,
-    color: '#4CAF50',
+    color: "#4CAF50",
   },
   cardsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "space-between",
   },
   card: {
-    width: '30%',
-    backgroundColor: '#f5f5f5',
+    width: "30%",
+    backgroundColor: "#f5f5f5",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
     marginBottom: 20,
   },
   cardTitle: {
     fontSize: 15,
-    marginTop:10,
-    fontWeight: 'bold',
+    marginTop: 10,
+    fontWeight: "bold",
   },
   cardValue: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 10,
   },
   progressBar: {
-    width: '100%',
+    width: "100%",
     height: 10,
   },
   achievementContainer: {
     marginTop: 30,
-    backgroundColor: '#e0f7fa',
+    backgroundColor: "#e0f7fa",
     padding: 15,
     borderRadius: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   achievementText: {
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#00796b',
+    fontWeight: "bold",
+    color: "#00796b",
   },
   progressCard: {
     backgroundColor: "#ffffff",

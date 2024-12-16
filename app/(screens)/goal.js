@@ -31,7 +31,7 @@ const DailyGoalPage = () => {
       setWaterGoal(newGoal);
       if (user?.uid) {
         const userDoc = doc(db, "users", user.uid);
-        await updateDoc(userDoc, { waterGoal: newGoal })
+        await updateDoc(userDoc, { waterGoal: newGoal });
       }
     } catch (error) {
       alert("Failed to update goal: " + error.message);
@@ -61,20 +61,25 @@ const DailyGoalPage = () => {
     } catch (error) {
       alert("Failed to update goal: " + error.message);
     }
-    router.replace("screens/home");
+    router.replace("home");
   };
 
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity style={styles.backButton} onPress={() => router.replace("screens/home")}>
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => router.replace("home")}
+        >
           <Text style={styles.backButtonText}>{"<"}</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Daily Goal</Text>
       </View>
       <View style={styles.descriptionSection}>
         <Text style={styles.descriptionTitle}>Your Daily Goal</Text>
-        <Text style={styles.descriptionSubtitle}>Adjust the amount of water to drink</Text>
+        <Text style={styles.descriptionSubtitle}>
+          Adjust the amount of water to drink
+        </Text>
       </View>
 
       <View style={styles.imageSection}>

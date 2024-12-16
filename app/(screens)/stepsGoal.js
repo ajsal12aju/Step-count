@@ -1,5 +1,12 @@
 import React, { useState, useContext, useEffect } from "react";
-import { View, Text, TouchableOpacity, Image, TextInput } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  TextInput,
+  Alert,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { FontAwesome } from "@expo/vector-icons";
 import { updateDoc, doc, getDoc } from "firebase/firestore";
@@ -20,7 +27,7 @@ const DailyStepsPage = () => {
 
           if (userDoc.exists()) {
             const { dailySteps } = userDoc.data();
-            setDailySteps(dailySteps || 5000); // Set to the fetched dailySteps or default to 5000
+            setDailySteps(dailySteps || 5000);
           }
         } catch (error) {
           console.error("Error fetching daily steps:", error);
@@ -37,7 +44,7 @@ const DailyStepsPage = () => {
     try {
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, { dailySteps });
-      console.log("Daily steps updated successfully!");
+      Alert.alert("Success", "Daily steps updated successfully!");
     } catch (error) {
       console.error("Error updating daily steps:", error);
     }
@@ -45,15 +52,19 @@ const DailyStepsPage = () => {
 
   return (
     <View className="flex-1 bg-black items-center px-6 py-4">
-      {/* Header Section */}
-      <View className="flex-row w-full items-center mt-8">
+      {/* First Row - Back Arrow */}
+      <View className="w-full mt-8">
         <TouchableOpacity
           className="w-10 h-10 bg-teal-400 rounded-full justify-center items-center"
-          onPress={() => router.replace("screens/stepTracker")}
+          onPress={() => router.replace("stepTracker")}
         >
           <FontAwesome name="arrow-left" size={20} color="black" />
         </TouchableOpacity>
-        <Text className="text-white text-3xl font-bold text-center flex-1">
+      </View>
+
+      {/* Second Row - Title */}
+      <View className="w-full mt-4">
+        <Text className="text-white text-3xl font-bold text-center">
           Daily Steps
         </Text>
       </View>

@@ -120,148 +120,156 @@ const WaterUpdatePage = () => {
   };
 
   const backToHome = () => {
-    router.replace("screens/goal");
+    router.replace("goal");
   };
 
   const progress = dailyWaterIntake / waterGoal;
 
   return (
     <View style={{ flex: 1 }}>
-      <ScrollView contentContainerStyle={styles.scrollContainer}>   
-           <View style={styles.container}>
-        {/* Daily Stats */}
-        <View style={styles.intakeCard}>
-          <View style={styles.intakeDetails}>
-            <View style={styles.leftSection}>
-              <Text style={styles.cardTitle}>Today's Water Intake</Text>
-              <Text style={styles.waterAmount}>
-                {dailyWaterIntake}ml / {waterGoal}ml
-              </Text>
-              <TouchableOpacity
-                style={styles.addWaterButton}
-                onPress={backToHome}
-              >
-                <Text style={styles.addWaterButtonText}>Update Daily Goal</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.rightSection}>
-              <Progress.Circle
-                size={120}
-                progress={progress}
-                showsText={true}
-                formatText={() => `${(progress * 100).toFixed(0)}%`}
-                color="#76c7c0"
-                unfilledColor="#d3d3d3"
-                borderWidth={0}
-                thickness={14}
-                textStyle={styles.progressText}
-              />
-            </View>
-          </View>
-        </View>
-        <View style={styles.row}>
-        <Text style={styles.header}>Add Water</Text>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => setIsModalVisible(true)}
-        >
-          <FontAwesome name="plus" size={20} color="white" />
-        </TouchableOpacity>
-      </View>
-
-        {/* Daily Records List */}
-        <View style={styles.recordsCard}>
-          <Text style={styles.recordsTitle}>Daily Records</Text>
-          <FlatList
-            data={waterRecords.filter(
-              (record) => record.date === new Date().toLocaleDateString()
-            )}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <View style={styles.recordItem}>
-                <View style={{ flexDirection: "row" }}>
-                  <FontAwesome name="tint" size={25} color="#76c7c0" />
-
-                  <Text style={styles.recordTime}>{item.time}</Text>
-                </View>
-
-                <Text style={styles.recordAmount}>{item.amount} ml</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        <View style={styles.container}>
+          {/* Daily Stats */}
+          <View style={styles.intakeCard}>
+            <View style={styles.intakeDetails}>
+              <View style={styles.leftSection}>
+                <Text style={styles.cardTitle}>Today's Water Intake</Text>
+                <Text style={styles.waterAmount}>
+                  {dailyWaterIntake}ml / {waterGoal}ml
+                </Text>
+                <TouchableOpacity
+                  style={styles.addWaterButton}
+                  onPress={backToHome}
+                >
+                  <Text style={styles.addWaterButtonText}>
+                    Update Daily Goal
+                  </Text>
+                </TouchableOpacity>
               </View>
-            )}
-          />
-        </View>
-
-        {/* Weekly Stats */}
-        <View style={styles.weeklyStatsCard}>
-          <Text style={styles.weeklyStatsTitle}>Weekly Stats</Text>
-          <View style={styles.weeklyCirclesContainer}>
-            {weeklyData.map((data, index) => (
-              <View key={index} style={styles.weeklyCircleWrapper}>
+              <View style={styles.rightSection}>
                 <Progress.Circle
-                  size={35}
-                  progress={data.percentage / 100}
+                  size={120}
+                  progress={progress}
                   showsText={true}
-                  formatText={() => data.day}
+                  formatText={() => `${(progress * 100).toFixed(0)}%`}
                   color="#76c7c0"
                   unfilledColor="#d3d3d3"
                   borderWidth={0}
-                  thickness={6}
-                  textStyle={styles.dayInitialText}
+                  thickness={14}
+                  textStyle={styles.progressText}
                 />
-                <Text style={styles.weeklyPercentage}>
-                  {data.percentage.toFixed(0)}%
-                </Text>
               </View>
-            ))}
-          </View>
-          <View style={styles.totalWeeklyProgressWrapper}>
-            <Text style={styles.totalProgressText}>Total Weekly Progress</Text>
-            <Progress.Bar
-              progress={averagePercentage / 100}
-              color={"#76c7c0"}
-              unfilledColor={"#d3d3d3"}
-              borderWidth={0}
-              width={null}
-              height={12}
-              style={styles.horizontalProgressBar}
-            />
-            <Text style={styles.averagePercentage}>
-              {averagePercentage.toFixed(0)}%
-            </Text>
-          </View>
-        </View>
-
-        {isModalVisible && (
-          <View style={styles.modal}>
-            <TextInput
-              style={styles.input}
-              placeholder="Enter water amount"
-              keyboardType="numeric"
-              value={newWaterAmount}
-              onChangeText={setNewWaterAmount}
-            />
-            <View style={{flexDirection:'row',width:'100%', alignItems:'center', justifyContent:'space-between'}}>
-           
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={() => setIsModalVisible(false)}
-            >
-              <Text style={styles.modalButtonText}>Cancel</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.modalButton}
-              onPress={handleAddWater}
-            >
-              <Text style={styles.modalButtonText}>Save</Text>
-            </TouchableOpacity>
             </View>
-           
           </View>
-        )}
-      </View>
-    </ScrollView>
+          <View style={styles.row}>
+            <Text style={styles.header}>Add Water</Text>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => setIsModalVisible(true)}
+            >
+              <FontAwesome name="plus" size={20} color="white" />
+            </TouchableOpacity>
           </View>
 
+          {/* Daily Records List */}
+          <View style={styles.recordsCard}>
+            <Text style={styles.recordsTitle}>Daily Records</Text>
+            <FlatList
+              data={waterRecords.filter(
+                (record) => record.date === new Date().toLocaleDateString()
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item }) => (
+                <View style={styles.recordItem}>
+                  <View style={{ flexDirection: "row" }}>
+                    <FontAwesome name="tint" size={25} color="#76c7c0" />
+
+                    <Text style={styles.recordTime}>{item.time}</Text>
+                  </View>
+
+                  <Text style={styles.recordAmount}>{item.amount} ml</Text>
+                </View>
+              )}
+            />
+          </View>
+
+          {/* Weekly Stats */}
+          <View style={styles.weeklyStatsCard}>
+            <Text style={styles.weeklyStatsTitle}>Weekly Stats</Text>
+            <View style={styles.weeklyCirclesContainer}>
+              {weeklyData.map((data, index) => (
+                <View key={index} style={styles.weeklyCircleWrapper}>
+                  <Progress.Circle
+                    size={35}
+                    progress={data.percentage / 100}
+                    showsText={true}
+                    formatText={() => data.day}
+                    color="#76c7c0"
+                    unfilledColor="#d3d3d3"
+                    borderWidth={0}
+                    thickness={6}
+                    textStyle={styles.dayInitialText}
+                  />
+                  <Text style={styles.weeklyPercentage}>
+                    {data.percentage.toFixed(0)}%
+                  </Text>
+                </View>
+              ))}
+            </View>
+            <View style={styles.totalWeeklyProgressWrapper}>
+              <Text style={styles.totalProgressText}>
+                Total Weekly Progress
+              </Text>
+              <Progress.Bar
+                progress={averagePercentage / 100}
+                color={"#76c7c0"}
+                unfilledColor={"#d3d3d3"}
+                borderWidth={0}
+                width={null}
+                height={12}
+                style={styles.horizontalProgressBar}
+              />
+              <Text style={styles.averagePercentage}>
+                {averagePercentage.toFixed(0)}%
+              </Text>
+            </View>
+          </View>
+
+          {isModalVisible && (
+            <View style={styles.modal}>
+              <TextInput
+                style={styles.input}
+                placeholder="Enter water amount"
+                keyboardType="numeric"
+                value={newWaterAmount}
+                onChangeText={setNewWaterAmount}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  width: "100%",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }}
+              >
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={() => setIsModalVisible(false)}
+                >
+                  <Text style={styles.modalButtonText}>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.modalButton}
+                  onPress={handleAddWater}
+                >
+                  <Text style={styles.modalButtonText}>Save</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          )}
+        </View>
+      </ScrollView>
+    </View>
   );
 };
 
@@ -452,7 +460,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,
-    width:'47%',
+    width: "47%",
     alignItems: "center",
   },
   modalButtonText: {

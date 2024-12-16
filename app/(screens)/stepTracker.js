@@ -304,7 +304,7 @@ const StepTrackerPage = () => {
         >
           Daily Target: {targetSteps} Steps
         </Text>
-        <TouchableOpacity onPress={() => router?.replace("screens/stepsGoal")}>
+        <TouchableOpacity onPress={() => router?.replace("stepsGoal")}>
           <FontAwesome name="edit" size={20} color="#00D9A5" />
         </TouchableOpacity>
       </View>
