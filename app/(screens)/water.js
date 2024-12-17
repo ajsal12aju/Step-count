@@ -126,7 +126,7 @@ const WaterUpdatePage = () => {
   const progress = dailyWaterIntake / waterGoal;
 
   return (
-    <View style={{ flex: 1, height:100 }}>
+    <View style={{ flex: 1, height: 100 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           {/* Daily Stats */}
@@ -174,23 +174,21 @@ const WaterUpdatePage = () => {
           {/* Daily Records List */}
           <View style={styles.recordsCard}>
             <Text style={styles.recordsTitle}>Daily Records</Text>
-            <FlatList
-              data={waterRecords.filter(
-                (record) => record.date === new Date().toLocaleDateString()
-              )}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <View style={styles.recordItem}>
-                  <View style={{ flexDirection: "row" }}>
-                    <FontAwesome name="tint" size={25} color="#38B2AC" />
-
-                    <Text style={styles.recordTime}>{item.time}</Text>
+            <ScrollView>
+              {waterRecords
+                .filter(
+                  (record) => record.date === new Date().toLocaleDateString()
+                )
+                .map((item, index) => (
+                  <View key={index} style={styles.recordItem}>
+                    <View style={{ flexDirection: "row" }}>
+                      <FontAwesome name="tint" size={25} color="#38B2AC" />
+                      <Text style={styles.recordTime}>{item.time}</Text>
+                    </View>
+                    <Text style={styles.recordAmount}>{item.amount} ml</Text>
                   </View>
-
-                  <Text style={styles.recordAmount}>{item.amount} ml</Text>
-                </View>
-              )}
-            />
+                ))}
+            </ScrollView>
           </View>
 
           {/* Weekly Stats */}

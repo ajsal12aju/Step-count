@@ -62,7 +62,7 @@ const HomeDashboard = () => {
     };
 
     fetchSteps();
-  }, [user.uid, todayDate]);
+  }, [user?.uid, todayDate]);
 
   useEffect(() => {
     const fetchTargetSteps = async () => {
@@ -138,9 +138,16 @@ const HomeDashboard = () => {
               <View className="flex-row justify-between items-center w-full">
                 <Progress.Circle
                   size={120}
-                  progress={stepCount / targetSteps}
                   showsText={true}
-                  formatText={() => `${(stepCount / targetSteps) * 100}%`}
+                  progress={targetSteps > 0 ? stepCount / targetSteps : 0}
+                  formatText={() =>
+                    targetSteps > 0 && stepCount > 0
+                      ? `${Math.min(
+                          100,
+                          ((stepCount / targetSteps) * 100)?.toFixed(2)
+                        )}%`
+                      : "0%"
+                  }
                   color="#38B2AC"
                   unfilledColor="#d3d3d3"
                   borderWidth={0}
@@ -201,7 +208,7 @@ const HomeDashboard = () => {
                   {reminder?.length || 0}
                 </Text>
                 <ProgressBar
-                  progress={reminder / 100}
+                  progress={reminder > 0 ? reminder / 100 : 0}
                   color="#38B2AC"
                   className="w-full h-2 mt-2"
                 />
@@ -214,7 +221,7 @@ const HomeDashboard = () => {
                 </Text>
                 <Text className="font-bold text-xl mt-2 text-white">350</Text>
                 <ProgressBar
-                  progress={progress.calories}
+                  progress={progress?.calories}
                   color="#ff6347"
                   className="w-full h-2 mt-2"
                 />
@@ -225,7 +232,7 @@ const HomeDashboard = () => {
                 <Text className="font-bold text-lg mt-3 text-white">Water</Text>
                 <Text className="font-bold text-xl mt-2 text-white">1.5 L</Text>
                 <ProgressBar
-                  progress={progress.water}
+                  progress={progress?.water}
                   color="#3b9e9f"
                   className="w-full h-2 mt-2"
                 />

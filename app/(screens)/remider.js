@@ -88,101 +88,104 @@ const ReminderPage = () => {
   };
 
   return (
-    <View style={{ flex: 1, height:100 }}>
+    <View style={{ flex: 1, height: 100 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
-    <View style={styles.container}>
-           
+        <View style={styles.container}>
+          <Text style={styles.heading}>Reminders</Text>
 
-      <Text style={styles.heading}>Reminders</Text>
-
-      <View style={styles.cardfirst}>
-        <View style={styles.cardLeft}>
-          <FontAwesome name="bell" size={24} color="#38B2AC" />
-          <Text style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}>
-            Notification
-          </Text>
-        </View>
-        <Switch
-          value={isTracking}
-          onValueChange={() => setIsTracking((prev) => !prev)}
-          trackColor={{ false: "#767577", true: "#38B2AC" }}
-          thumbColor={isTracking ? "#ffffff" : "#f4f3f4"}
-        />
-      </View>
-
-      <View style={styles.cardfirst}>
-        <View style={styles.cardLeft}>
-          <FontAwesome name="volume-up" size={24} color="#38B2AC" />
-          <Text style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}>
-            Sound
-          </Text>
-        </View>
-        <Switch
-          value={isTracking}
-          onValueChange={() => setIsTracking((prev) => !prev)}
-          trackColor={{ false: "#767577", true: "#38B2AC" }}
-          thumbColor={isTracking ? "#ffffff" : "#f4f3f4"}
-        />
-      </View>
-
-      <View style={styles.row}>
-        <Text style={styles.header}>Add Reminder</Text>
-        <TouchableOpacity
-          style={styles.addButton}
-          onPress={() => setPickerVisible(true)}
-        >
-          <FontAwesome name="plus" size={20} color="white" />
-        </TouchableOpacity>
-      </View>
-
-      <FlatList
-        data={reminders}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => (
           <View style={styles.cardfirst}>
             <View style={styles.cardLeft}>
-              <FontAwesome name="clock-o" size={24} color="#38B2AC" />
+              <FontAwesome name="bell" size={24} color="#38B2AC" />
               <Text
                 style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}
               >
-                {item.time}
+                Notification
               </Text>
             </View>
             <Switch
-              value={item.enabled}
-              onValueChange={() => toggleSwitch(item.time)}
+              value={isTracking}
+              onValueChange={() => setIsTracking((prev) => !prev)}
               trackColor={{ false: "#767577", true: "#38B2AC" }}
-              thumbColor={item.enabled ? "#ffffff" : "#f4f3f4"}
+              thumbColor={isTracking ? "#ffffff" : "#f4f3f4"}
             />
           </View>
-        )}
-        ListEmptyComponent={() => (
-          <Text style={styles.noReminders}>
-            No reminders added yet. Tap "+" to add one.
-          </Text>
-        )}
-      />
 
-      {pickerVisible && (
-        <DateTimePicker
-          value={selectedTime}
-          mode="time"
-          display={Platform.OS === "ios" ? "spinner" : "default"}
-          onChange={handlePickerChange}
-        />
-      )}
+          <View style={styles.cardfirst}>
+            <View style={styles.cardLeft}>
+              <FontAwesome name="volume-up" size={24} color="#38B2AC" />
+              <Text
+                style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}
+              >
+                Sound
+              </Text>
+            </View>
+            <Switch
+              value={isTracking}
+              onValueChange={() => setIsTracking((prev) => !prev)}
+              trackColor={{ false: "#767577", true: "#38B2AC" }}
+              thumbColor={isTracking ? "#ffffff" : "#f4f3f4"}
+            />
+          </View>
 
-      <TouchableOpacity
-        style={styles.changeGoalButton}
-        onPress={resetReminders}
-      >
-        <Text style={styles.changeGoalButtonText}>Reset Reminders</Text>
-      </TouchableOpacity>
+          <View style={styles.row}>
+            <Text style={styles.header}>Add Reminder</Text>
+            <TouchableOpacity
+              style={styles.addButton}
+              onPress={() => setPickerVisible(true)}
+            >
+              <FontAwesome name="plus" size={20} color="white" />
+            </TouchableOpacity>
+          </View>
+
+          <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+            {reminders.length > 0 ? (
+              reminders.map((item, index) => (
+                <View key={index.toString()} style={styles.cardfirst}>
+                  <View style={styles.cardLeft}>
+                    <FontAwesome name="clock-o" size={24} color="#38B2AC" />
+                    <Text
+                      style={{
+                        ...styles.cardTitle,
+                        marginTop: 5,
+                        marginLeft: 10,
+                      }}
+                    >
+                      {item.time}
+                    </Text>
+                  </View>
+                  <Switch
+                    value={item.enabled}
+                    onValueChange={() => toggleSwitch(item.time)}
+                    trackColor={{ false: "#767577", true: "#38B2AC" }}
+                    thumbColor={item.enabled ? "#ffffff" : "#f4f3f4"}
+                  />
+                </View>
+              ))
+            ) : (
+              <Text style={styles.noReminders}>
+                No reminders added yet. Tap "+" to add one.
+              </Text>
+            )}
+          </ScrollView>
+
+          {pickerVisible && (
+            <DateTimePicker
+              value={selectedTime}
+              mode="time"
+              display={Platform.OS === "ios" ? "spinner" : "default"}
+              onChange={handlePickerChange}
+            />
+          )}
+
+          <TouchableOpacity
+            style={styles.changeGoalButton}
+            onPress={resetReminders}
+          >
+            <Text style={styles.changeGoalButtonText}>Reset Reminders</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
     </View>
-    </ScrollView>
-
-    </View>
-
   );
 };
 
