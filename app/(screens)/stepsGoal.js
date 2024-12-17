@@ -58,7 +58,7 @@ const DailyStepsPage = () => {
           className="w-10 h-10 bg-teal-400 rounded-full justify-center items-center"
           onPress={() => router.replace("stepTracker")}
         >
-          <FontAwesome name="arrow-left" size={20} color="black" />
+          <FontAwesome name="arrow-left" size={20} color="white" />
         </TouchableOpacity>
       </View>
 
@@ -88,10 +88,10 @@ const DailyStepsPage = () => {
       {/* Adjust Section */}
       <View className="flex-row items-center mt-10 space-x-8">
         <TouchableOpacity
-          className="bg-teal-400 w-14 h-14 rounded-full justify-center items-center"
+          className="bg-teal-400 w-12 h-12 rounded-full justify-center items-center"
           onPress={() => setDailySteps((prev) => Math.max(0, prev - 500))}
         >
-          <Text className="text-black text-2xl font-bold">-</Text>
+          <Text className="text-white text-2xl font-bold">-</Text>
         </TouchableOpacity>
 
         {/* Displaying Step Count with Input Field */}
@@ -103,19 +103,19 @@ const DailyStepsPage = () => {
         />
 
         <TouchableOpacity
-          className="bg-teal-400 w-14 h-14 rounded-full justify-center items-center"
+          className="bg-teal-400 w-12 h-12 rounded-full justify-center items-center"
           onPress={() => setDailySteps((prev) => prev + 500)}
         >
-          <Text className="text-black text-2xl font-bold">+</Text>
+          <Text className="text-white text-2xl font-bold">+</Text>
         </TouchableOpacity>
       </View>
 
       {/* Change Steps Button */}
       <TouchableOpacity
-        className="bg-teal-400 w-full py-4 rounded-full items-center mt-20"
+        className="bg-teal-400 w-full py-2 rounded-full items-center mt-20"
         onPress={updateDailySteps}
       >
-        <Text className="text-black text-lg font-bold">Update Daily Steps</Text>
+        <Text className="text-white text-lg font-bold">Update Daily Steps</Text>
       </TouchableOpacity>
     </View>
   );

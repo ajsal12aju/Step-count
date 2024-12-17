@@ -27,30 +27,38 @@ const Layout = () => {
       <View className="absolute bottom-0 left-0 right-0 bg-gray-800 flex-row justify-around py-4 border-t border-gray-700">
         <TouchableOpacity
           className="items-center"
-          onPress={() => router.replace("remider")}
+          onPress={() => router.replace("home")}
         >
-          <FontAwesome name="bell" size={20} color="#76c7c0" />
-          <Text className="text-white text-xs">Reminder</Text>
+          <FontAwesome name="home" size={20} color="#38B2AC" />
+          <Text className="text-white text-xs">Home</Text>
         </TouchableOpacity>
-
-        <TouchableOpacity
-          className="items-center"
-          onPress={() => router.replace("water")}
-        >
-          <FontAwesome name="tint" size={20} color="#76c7c0" />
-          <Text className="text-white text-xs">Water</Text>
-        </TouchableOpacity>
-
         <TouchableOpacity
           className="items-center"
           onPress={() => router.replace("stepTracker")}
         >
-          <FontAwesome name="bullseye" size={20} color="#76c7c0" />
+          <FontAwesome name="bullseye" size={20} color="#38B2AC" />
           <Text className="text-white text-xs">Steps</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          className="items-center"
+          onPress={() => router.replace("water")}
+        >
+          <FontAwesome name="tint" size={20} color="#38B2AC" />
+          <Text className="text-white text-xs">Water</Text>
+        </TouchableOpacity>
+
+     
+
+        <TouchableOpacity
+          className="items-center"
+          onPress={() => router.replace("remider")}
+        >
+          <FontAwesome name="bell" size={20} color="#38B2AC" />
+          <Text className="text-white text-xs">Reminder</Text>
         </TouchableOpacity>
 
         <TouchableOpacity className="items-center" onPress={toggleModal}>
-          <FontAwesome name="user" size={20} color="#76c7c0" />
+          <FontAwesome name="user" size={20} color="#38B2AC" />
           <Text className="text-white text-xs">Account</Text>
         </TouchableOpacity>
       </View>

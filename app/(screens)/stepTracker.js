@@ -25,7 +25,6 @@ const StepTrackerPage = () => {
   const [stepRecords, setStepRecords] = useState([]);
   const router = useRouter();
 
-  // Fetch weekly data dynamically from Firebase or use mock data for now
   const [weeklyData, setWeeklyData] = useState([]);
   const [averageWeeklyProgress, setAverageWeeklyProgress] = useState(0);
 
@@ -154,7 +153,7 @@ const StepTrackerPage = () => {
 
       await fetchStepRecords();
 
-      Alert.alert("Success", "Steps saved to the database.");
+      Alert.alert("Success", "Your steps is updated");
     } catch (error) {
       console.error("Error saving steps:", error);
       Alert.alert("Error", "Failed to save steps. Please try again later.");
@@ -270,7 +269,7 @@ const StepTrackerPage = () => {
               onPress={toggleTracking}
             >
               <Text
-                className="text-black"
+                className="text-white"
                 style={{ fontWeight: "600", fontSize: 16, textAlign: "center" }}
               >
                 {isTracking ? "Stop Tracking" : "Start Tracking"}
@@ -285,7 +284,7 @@ const StepTrackerPage = () => {
               formatText={() =>
                 `${Math.min((progress * 100).toFixed(0), 100)}%`
               }
-              color="#76c7c0"
+              color="#38B2AC"
               unfilledColor="#444"
               thickness={12}
               textStyle={{ color: "#fff" }}
@@ -323,7 +322,7 @@ const StepTrackerPage = () => {
             keyExtractor={(item, index) => index.toString()}
             renderItem={({ item }) => (
               <View className="flex-row items-center mb-3">
-                <FontAwesome name="male" size={25} color="#76c7c0" />
+                <FontAwesome name="male" size={25} color="#38B2AC" />
                 <Text
                   className="text-white text-sm flex-1 ml-3"
                   style={{ fontSize: 14 }}
@@ -363,7 +362,7 @@ const StepTrackerPage = () => {
                   progress={percentage / 100}
                   showsText={true}
                   formatText={() => `${percentage}%`}
-                  color="#76c7c0"
+                  color="#38B2AC"
                   unfilledColor="#444"
                   thickness={8}
                   textStyle={{ color: "#fff", fontSize: 8 }}

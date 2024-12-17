@@ -24,7 +24,7 @@ const SignIn = () => {
   const [errorMessage, setErrorMessage] = useState("");
 
   const handleSignUpPress = () => {
-    router.replace("signUp");
+    router.replace("screens/signUp");
   };
 
   const handleSignInPress = async () => {
@@ -83,7 +83,7 @@ const SignIn = () => {
 
             <View className="mx-6">
               <View className="flex-row items-center w-full h-12 px-4 border border-gray-300 rounded-full bg-white mb-4 shadow-sm">
-                <Ionicons name="mail-outline" size={20} color="#76c7c0" />
+                <Ionicons name="mail-outline" size={20} color="#38B2AC" />
                 <TextInput
                   className="flex-1 ml-3 text-gray-800"
                   placeholder="Enter your email"
@@ -97,7 +97,7 @@ const SignIn = () => {
                 <Ionicons
                   name="lock-closed-outline"
                   size={20}
-                  color="#76c7c0"
+                  color="#38B2AC"
                 />
                 <TextInput
                   className="flex-1 ml-3 text-gray-800"

@@ -4,6 +4,8 @@ import { useRouter } from "expo-router";
 import { AuthContext } from "../../context/authContext";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
+import { FontAwesome } from "@expo/vector-icons";
+
 
 const DailyGoalPage = () => {
   const { user } = useContext(AuthContext);
@@ -67,11 +69,11 @@ const DailyGoalPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => router.replace("home")}
+      <TouchableOpacity
+          className="w-10 h-10 bg-teal-400 rounded-full justify-center items-center"
+          onPress={() => router.replace("water")}
         >
-          <Text style={styles.backButtonText}>{"<"}</Text>
+          <FontAwesome name="arrow-left" size={20} color="white" />
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Daily Goal</Text>
       </View>
@@ -124,7 +126,7 @@ const styles = StyleSheet.create({
     left: 0,
   },
   backButtonText: {
-    color: "#76c7c0",
+    color: "#38B2AC",
     fontSize: 30,
   },
   headerTitle: {
@@ -161,16 +163,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   adjustButton: {
-    backgroundColor: "#76c7c0",
-    width: 45,
-    height: 45,
+    backgroundColor: "#38B2AC",
+    width: 40,
+    height: 40,
     borderRadius: 25,
     justifyContent: "center",
     alignItems: "center",
     marginHorizontal: 20,
   },
   adjustButtonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 28,
     fontWeight: "bold",
   },
@@ -180,15 +182,15 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   changeGoalButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     width: "100%",
     padding: 10,
     borderRadius: 50,
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 90,
   },
   changeGoalButtonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },

@@ -5,6 +5,7 @@ import {
   TouchableOpacity,
   StyleSheet,
   Switch,
+  ScrollView,
   FlatList,
   Platform,
 } from "react-native";
@@ -87,12 +88,16 @@ const ReminderPage = () => {
   };
 
   return (
+    <View style={{ flex: 1, height:100 }}>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
     <View style={styles.container}>
+           
+
       <Text style={styles.heading}>Reminders</Text>
 
       <View style={styles.cardfirst}>
         <View style={styles.cardLeft}>
-          <FontAwesome name="bell" size={24} color="#76c7c0" />
+          <FontAwesome name="bell" size={24} color="#38B2AC" />
           <Text style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}>
             Notification
           </Text>
@@ -100,14 +105,14 @@ const ReminderPage = () => {
         <Switch
           value={isTracking}
           onValueChange={() => setIsTracking((prev) => !prev)}
-          trackColor={{ false: "#767577", true: "#76c7c0" }}
+          trackColor={{ false: "#767577", true: "#38B2AC" }}
           thumbColor={isTracking ? "#ffffff" : "#f4f3f4"}
         />
       </View>
 
       <View style={styles.cardfirst}>
         <View style={styles.cardLeft}>
-          <FontAwesome name="volume-up" size={24} color="#76c7c0" />
+          <FontAwesome name="volume-up" size={24} color="#38B2AC" />
           <Text style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}>
             Sound
           </Text>
@@ -115,7 +120,7 @@ const ReminderPage = () => {
         <Switch
           value={isTracking}
           onValueChange={() => setIsTracking((prev) => !prev)}
-          trackColor={{ false: "#767577", true: "#76c7c0" }}
+          trackColor={{ false: "#767577", true: "#38B2AC" }}
           thumbColor={isTracking ? "#ffffff" : "#f4f3f4"}
         />
       </View>
@@ -136,7 +141,7 @@ const ReminderPage = () => {
         renderItem={({ item }) => (
           <View style={styles.cardfirst}>
             <View style={styles.cardLeft}>
-              <FontAwesome name="clock-o" size={24} color="#76c7c0" />
+              <FontAwesome name="clock-o" size={24} color="#38B2AC" />
               <Text
                 style={{ ...styles.cardTitle, marginTop: 5, marginLeft: 10 }}
               >
@@ -146,7 +151,7 @@ const ReminderPage = () => {
             <Switch
               value={item.enabled}
               onValueChange={() => toggleSwitch(item.time)}
-              trackColor={{ false: "#767577", true: "#76c7c0" }}
+              trackColor={{ false: "#767577", true: "#38B2AC" }}
               thumbColor={item.enabled ? "#ffffff" : "#f4f3f4"}
             />
           </View>
@@ -174,10 +179,17 @@ const ReminderPage = () => {
         <Text style={styles.changeGoalButtonText}>Reset Reminders</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
+
+    </View>
+
   );
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 0.9,
+  },
   container: {
     flex: 1,
     backgroundColor: "#000",
@@ -201,7 +213,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   addButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     marginTop: 5,
     width: 40,
     height: 40,
@@ -210,7 +222,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   cardfirst: {
-    backgroundColor: "#222",
+    backgroundColor: "#1F2937",
     borderRadius: 10,
     padding: 10,
     flexDirection: "row",
@@ -236,16 +248,16 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   changeGoalButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     width: "100%",
-    padding: 10,
+    padding: 8,
     borderRadius: 50,
     alignItems: "center",
-    marginBottom: 20,
+    marginBottom: 30,
   },
   changeGoalButtonText: {
-    color: "#000",
-    fontSize: 16,
+    color: "#fff",
+    fontSize: 18,
     fontWeight: "bold",
   },
 });

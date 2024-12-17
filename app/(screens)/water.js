@@ -126,7 +126,7 @@ const WaterUpdatePage = () => {
   const progress = dailyWaterIntake / waterGoal;
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, height:100 }}>
       <ScrollView contentContainerStyle={styles.scrollContainer}>
         <View style={styles.container}>
           {/* Daily Stats */}
@@ -152,7 +152,7 @@ const WaterUpdatePage = () => {
                   progress={progress}
                   showsText={true}
                   formatText={() => `${(progress * 100).toFixed(0)}%`}
-                  color="#76c7c0"
+                  color="#38B2AC"
                   unfilledColor="#d3d3d3"
                   borderWidth={0}
                   thickness={14}
@@ -182,7 +182,7 @@ const WaterUpdatePage = () => {
               renderItem={({ item }) => (
                 <View style={styles.recordItem}>
                   <View style={{ flexDirection: "row" }}>
-                    <FontAwesome name="tint" size={25} color="#76c7c0" />
+                    <FontAwesome name="tint" size={25} color="#38B2AC" />
 
                     <Text style={styles.recordTime}>{item.time}</Text>
                   </View>
@@ -195,7 +195,7 @@ const WaterUpdatePage = () => {
 
           {/* Weekly Stats */}
           <View style={styles.weeklyStatsCard}>
-            <Text style={styles.weeklyStatsTitle}>Weekly Stats</Text>
+            <Text style={styles.weeklyStatsTitle}>Weekly Status</Text>
             <View style={styles.weeklyCirclesContainer}>
               {weeklyData.map((data, index) => (
                 <View key={index} style={styles.weeklyCircleWrapper}>
@@ -204,7 +204,7 @@ const WaterUpdatePage = () => {
                     progress={data.percentage / 100}
                     showsText={true}
                     formatText={() => data.day}
-                    color="#76c7c0"
+                    color="#38B2AC"
                     unfilledColor="#d3d3d3"
                     borderWidth={0}
                     thickness={6}
@@ -222,7 +222,7 @@ const WaterUpdatePage = () => {
               </Text>
               <Progress.Bar
                 progress={averagePercentage / 100}
-                color={"#76c7c0"}
+                color={"#38B2AC"}
                 unfilledColor={"#d3d3d3"}
                 borderWidth={0}
                 width={null}
@@ -274,6 +274,9 @@ const WaterUpdatePage = () => {
 };
 
 const styles = StyleSheet.create({
+  scrollContainer: {
+    flexGrow: 1,
+  },
   container: {
     flex: 1,
     backgroundColor: "#000",
@@ -291,7 +294,7 @@ const styles = StyleSheet.create({
     marginBottom: 15,
   },
   addButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     marginTop: 5,
     width: 40,
     height: 40,
@@ -306,7 +309,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   intakeCard: {
-    backgroundColor: "#222",
+    backgroundColor: "#1F2937",
     borderRadius: 10,
     overflow: "hidden",
     marginBottom: 20,
@@ -329,7 +332,7 @@ const styles = StyleSheet.create({
     marginVertical: 10,
   },
   addWaterButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     padding: 8,
     width: 160,
     top: 10,
@@ -337,7 +340,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   addWaterButtonText: {
-    color: "#000",
+    color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
   },
@@ -350,7 +353,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   recordsCard: {
-    backgroundColor: "#222",
+    backgroundColor: "#1F2937",
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -377,7 +380,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   weeklyStatsCard: {
-    backgroundColor: "#222",
+    backgroundColor: "#1F2937",
     borderRadius: 10,
     padding: 20,
     marginBottom: 20,
@@ -424,7 +427,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
   },
   changeGoalButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     width: "100%",
     flexDirection: "row",
     padding: 10,
@@ -450,13 +453,13 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: "#76c7c0",
+    borderColor: "#38B2AC",
     padding: 10,
     marginBottom: 20,
     fontSize: 16,
   },
   modalButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     padding: 10,
     borderRadius: 10,
     marginBottom: 10,

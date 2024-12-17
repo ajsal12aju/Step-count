@@ -87,7 +87,7 @@ const HomeDashboard = () => {
                   progress={0.45}
                   showsText={true}
                   formatText={() => `4,500`}
-                  color="#76c7c0"
+                  color="#38B2AC"
                   unfilledColor="#d3d3d3"
                   borderWidth={0}
                   thickness={14}
@@ -133,13 +133,13 @@ const HomeDashboard = () => {
             </View>
             <View style={styles.cardsRow}>
               <View style={styles.card}>
-                <FontAwesome name="bell" size={40} color="#76c7c0" />
+                <FontAwesome name="bell" size={40} color="#38B2AC" />
 
                 <Text style={styles.cardTitle}>Reminder</Text>
                 <Text style={styles.cardValue}>8,450</Text>
                 <ProgressBar
                   progress={progress.steps}
-                  color="#76c7c0"
+                  color="#38B2AC"
                   style={styles.progressBar}
                 />
               </View>
@@ -157,7 +157,7 @@ const HomeDashboard = () => {
               </View>
 
               <View style={styles.card}>
-                <FontAwesome name="tint" size={40} color="#76c7c0" />
+                <FontAwesome name="tint" size={40} color="#38B2AC" />
 
                 <Text style={styles.cardTitle}>Water</Text>
                 <Text style={styles.cardValue}>1.5 L</Text>
@@ -329,7 +329,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   playButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     borderRadius: 50,
     padding: 10,
   },
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   dayCircle: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     borderRadius: 50,
     width: 40,
     height: 40,
@@ -360,7 +360,7 @@ const styles = StyleSheet.create({
   },
 
   settingsButton: {
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     paddingVertical: 15,
     paddingHorizontal: 30,
     borderRadius: 25,
@@ -415,7 +415,7 @@ const styles = StyleSheet.create({
   // },
   // menuButtonText: {
   //   marginLeft: 8,
-  //   color: '#76c7c0',
+  //   color: '#38B2AC',
   //   fontSize: 16,
   //   fontWeight: 'bold',
   // },
@@ -445,7 +445,7 @@ const styles = StyleSheet.create({
   closeButton: {
     marginTop: 10,
     padding: 10,
-    backgroundColor: "#76c7c0",
+    backgroundColor: "#38B2AC",
     borderRadius: 5,
   },
   closeButtonText: {
