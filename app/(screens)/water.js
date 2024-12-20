@@ -30,7 +30,7 @@ const WaterUpdatePage = () => {
   const fetchUserData = async () => {
     try {
       if (user?.uid) {
-        const userDoc = doc(db, "users", user.uid);
+        const userDoc = doc(db, "users", user?.uid);
         const docSnap = await getDoc(userDoc);
         if (docSnap.exists()) {
           const goal = docSnap.data().waterGoal || 3500;
@@ -39,7 +39,7 @@ const WaterUpdatePage = () => {
           const waterIntakesCollection = collection(
             db,
             "users",
-            user.uid,
+            user?.uid,
             "waterIntakes"
           );
           const querySnapshot = await getDocs(waterIntakesCollection);
@@ -104,7 +104,7 @@ const WaterUpdatePage = () => {
         const waterIntakesCollection = collection(
           db,
           "users",
-          user.uid,
+          user?.uid,
           "waterIntakes"
         );
         await addDoc(waterIntakesCollection, newWaterRecord);

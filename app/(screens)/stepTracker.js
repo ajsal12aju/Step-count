@@ -44,7 +44,7 @@ const StepTrackerPage = () => {
         const userCollectionRef = collection(db, "users");
         const userQuery = query(
           userCollectionRef,
-          where("userId", "==", user.uid)
+          where("userId", "==", user?.uid)
         );
 
         try {
@@ -70,10 +70,11 @@ const StepTrackerPage = () => {
   // Fetch today's step count from Firebase
   useEffect(() => {
     const fetchSteps = async () => {
+      if (!user || !user.uid) return;
       try {
         const stepQuery = query(
           dailyGoalsCollection,
-          where("uid", "==", user.uid),
+          where("uid", "==", user?.uid),
           where("date", "==", todayDate)
         );
         const querySnapshot = await getDocs(stepQuery);
@@ -120,7 +121,7 @@ const StepTrackerPage = () => {
   };
   useEffect(() => {
     fetchWeeklyData();
-  }, [user.uid, targetSteps]);
+  }, [user?.uid, targetSteps]);
 
   const saveStepsToDB = async () => {
     try {
@@ -131,7 +132,7 @@ const StepTrackerPage = () => {
 
       const stepQuery = query(
         dailyGoalsCollection,
-        where("uid", "==", user.uid),
+        where("uid", "==", user?.uid),
         where("date", "==", todayDate)
       );
 
@@ -174,7 +175,7 @@ const StepTrackerPage = () => {
     try {
       const stepQuery = query(
         dailyGoalsCollection,
-        where("uid", "==", user.uid),
+        where("uid", "==", user?.uid),
         where("date", "==", todayDate)
       );
 
@@ -195,7 +196,7 @@ const StepTrackerPage = () => {
   // Fetch today's step records
   useEffect(() => {
     fetchStepRecords();
-  }, [user.uid, todayDate, isTracking]);
+  }, [user?.uid, todayDate, isTracking]);
 
   // Toggle tracking on/off
   const toggleTracking = () => {

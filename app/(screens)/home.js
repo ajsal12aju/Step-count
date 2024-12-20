@@ -11,7 +11,14 @@ import { useEffect, useState } from "react";
 import { ProgressBar } from "react-native-paper";
 import { useRouter } from "expo-router";
 import { useAuth } from "../../hooks/auth/auth";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  query,
+  where,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import {
   requestNotificationPermissions,
@@ -25,6 +32,8 @@ const HomeDashboard = () => {
   const [targetSteps, setTargetSteps] = useState(100);
   const [userName, setName] = useState(null);
   const [reminder, setReminder] = useState([]);
+  const [waterGoal, setWaterGoal] = useState(3500);
+  const [dailyWaterIntake, setDailyWaterIntake] = useState(0);
 
   const todayDate = new Date().toISOString().split("T")[0];
   const dailyGoalsCollection = collection(db, "dailyGoals");
@@ -44,9 +53,10 @@ const HomeDashboard = () => {
   useEffect(() => {
     const fetchSteps = async () => {
       try {
+        if (!user || !user.uid) return;
         const stepQuery = query(
           dailyGoalsCollection,
-          where("uid", "==", user.uid),
+          where("uid", "==", user?.uid),
           where("date", "==", todayDate)
         );
         const querySnapshot = await getDocs(stepQuery);
@@ -63,6 +73,41 @@ const HomeDashboard = () => {
 
     fetchSteps();
   }, [user?.uid, todayDate]);
+
+  const fetchUserData = async () => {
+    try {
+      if (user?.uid) {
+        const userDoc = doc(db, "users", user?.uid);
+        const docSnap = await getDoc(userDoc);
+        if (docSnap.exists()) {
+          const goal = docSnap.data().waterGoal || 3500;
+          setWaterGoal(goal);
+
+          const waterIntakesCollection = collection(
+            db,
+            "users",
+            user?.uid,
+            "waterIntakes"
+          );
+          const querySnapshot = await getDocs(waterIntakesCollection);
+          const records = querySnapshot.docs.map((doc) => doc.data());
+
+          const todayDate = new Date().toLocaleDateString();
+          const todayIntake = records
+            .filter((record) => record.date === todayDate)
+            .reduce((total, record) => total + parseInt(record.amount, 10), 0);
+
+          setDailyWaterIntake(todayIntake);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching user data: ", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, [user]);
 
   useEffect(() => {
     const fetchTargetSteps = async () => {
@@ -208,7 +253,10 @@ const HomeDashboard = () => {
                   {reminder?.length || 0}
                 </Text>
                 <ProgressBar
-                  progress={reminder > 0 ? reminder / 100 : 0}
+                  progress={Math.min(
+                    1,
+                    Math.max(0, reminder?.length ? reminder.length / 100 : 0)
+                  )}
                   color="#38B2AC"
                   className="w-full h-2 mt-2"
                 />
@@ -219,9 +267,11 @@ const HomeDashboard = () => {
                 <Text className="font-bold text-lg mt-3 text-white">
                   Calories
                 </Text>
-                <Text className="font-bold text-xl mt-2 text-white">350</Text>
+                <Text className="font-bold text-xl mt-2 text-white">
+                  {((stepCount || 0) * 0.0063)?.toFixed()}
+                </Text>
                 <ProgressBar
-                  progress={progress?.calories}
+                  progress={((stepCount || 0) * 0.0063)?.toFixed()}
                   color="#ff6347"
                   className="w-full h-2 mt-2"
                 />
@@ -230,9 +280,14 @@ const HomeDashboard = () => {
               <View className="bg-gray-800 p-4 rounded-lg items-center flex-1">
                 <FontAwesome name="tint" size={30} color="#38B2AC" />
                 <Text className="font-bold text-lg mt-3 text-white">Water</Text>
-                <Text className="font-bold text-xl mt-2 text-white">1.5 L</Text>
+                <Text className="font-bold text-xl mt-2 text-white">
+                  {dailyWaterIntake} ml
+                </Text>
                 <ProgressBar
-                  progress={progress?.water}
+                  progress={Math.min(
+                    1,
+                    Math.max(0, (dailyWaterIntake / waterGoal).toFixed(2))
+                  )}
                   color="#3b9e9f"
                   className="w-full h-2 mt-2"
                 />

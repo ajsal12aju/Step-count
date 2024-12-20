@@ -6,7 +6,6 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebaseConfig";
 import { FontAwesome } from "@expo/vector-icons";
 
-
 const DailyGoalPage = () => {
   const { user } = useContext(AuthContext);
   const [waterGoal, setWaterGoal] = useState(3000);
@@ -15,7 +14,7 @@ const DailyGoalPage = () => {
   useEffect(() => {
     const fetchWaterGoal = async () => {
       if (user?.uid) {
-        const userDoc = doc(db, "users", user.uid);
+        const userDoc = doc(db, "users", user?.uid);
         const docSnap = await getDoc(userDoc);
         if (docSnap.exists()) {
           const goal = docSnap.data().waterGoal;
@@ -69,7 +68,7 @@ const DailyGoalPage = () => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-      <TouchableOpacity
+        <TouchableOpacity
           className="w-10 h-10 bg-teal-400 rounded-full justify-center items-center"
           onPress={() => router.replace("water")}
         >

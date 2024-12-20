@@ -27,7 +27,7 @@ const ReminderPage = () => {
   useEffect(() => {
     const fetchReminders = async () => {
       try {
-        const userDocRef = doc(db, "users", user.uid);
+        const userDocRef = doc(db, "users", user?.uid);
         const docSnap = await getDoc(userDocRef);
         if (docSnap.exists()) {
           setReminders(docSnap.data().reminders || []);
@@ -52,7 +52,7 @@ const ReminderPage = () => {
 
   const addReminderToFirebase = async (time) => {
     try {
-      const userDocRef = doc(db, "users", user.uid);
+      const userDocRef = doc(db, "users", user?.uid);
       await updateDoc(userDocRef, {
         reminders: arrayUnion({ time, enabled: true }),
       });
@@ -76,7 +76,7 @@ const ReminderPage = () => {
 
   const resetReminders = async () => {
     try {
-      const userDocRef = doc(db, "users", user.uid);
+      const userDocRef = doc(db, "users", user?.uid);
       await updateDoc(userDocRef, {
         reminders: [],
       });
